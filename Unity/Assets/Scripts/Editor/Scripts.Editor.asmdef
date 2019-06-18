@@ -1,0 +1,12 @@
+{
+    "name": "Scripts.Editor",
+    "references": [
+        "Scripts.Runtime"
+    ],
+    "optionalUnityReferences": [],
+    "includePlatforms": [
+        "Editor"
+    ],
+    "excludePlatforms": [],
+    "allowUnsafeCode": false
+}

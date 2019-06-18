@@ -1,0 +1,12 @@
+{
+    "name": "Scripts.Runtime",
+    "references": [
+        "Plugins",
+        "CmdMessenger",
+        "CmdMessenger.Serial"
+    ],
+    "optionalUnityReferences": [],
+    "includePlatforms": [],
+    "excludePlatforms": [],
+    "allowUnsafeCode": false
+}

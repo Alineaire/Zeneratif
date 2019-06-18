@@ -1,0 +1,10 @@
+{
+    "name": "CmdMessenger.Serial",
+    "references": [
+        "CmdMessenger"
+    ],
+    "optionalUnityReferences": [],
+    "includePlatforms": [],
+    "excludePlatforms": [],
+    "allowUnsafeCode": false
+}

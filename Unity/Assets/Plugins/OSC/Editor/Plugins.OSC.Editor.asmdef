@@ -1,0 +1,12 @@
+{
+    "name": "Plugins.OSC.Editor",
+    "references": [
+        "Plugins"
+    ],
+    "optionalUnityReferences": [],
+    "includePlatforms": [
+        "Editor"
+    ],
+    "excludePlatforms": [],
+    "allowUnsafeCode": false
+}
