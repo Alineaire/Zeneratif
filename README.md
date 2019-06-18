@@ -19,3 +19,9 @@
 
 1. [Unity _2019.1_](https://unity3d.com/).
 2. [Visual Studio Code](https://code.visualstudio.com/) with extensions: [PlatformIO](https://platformio.org/).
+
+## Credits
+
+https://opengameart.org/content/3-seamless-grass-textures
+
+https://www.youtube.com/watch?v=L_Bzcw9tqTc
