@@ -117,7 +117,7 @@ public class GameManager : MonoBehaviour
 			{
 				currentScore = Mathf.Max(currentScore - scoreDecreaseOnMiss, minScore);
 			}
-			Debug.LogFormat("Score: {0}", currentScore);
+			Debug.LogFormat("Score: {0}.", currentScore);
 
 			superCollider.SendBounce(currentScore / scorePerLayer);
 

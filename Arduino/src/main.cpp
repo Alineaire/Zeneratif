@@ -25,13 +25,13 @@ enum Command
     ReadyRequest,
     ReadyResponse,
 
-    ButtonsStateResponse,
-
     SetButtonColorRequest,
     SetButtonColorResponse,
 
     TurnOffRequest,
     TurnOffResponse,
+
+    ButtonsStateUpdated,
 };
 
 CmdMessenger cmdMessenger{Serial};
@@ -39,12 +39,12 @@ CRGB leds[ButtonCount][LedsPerButton];
 
 void OnUnknownCommand()
 {
-    cmdMessenger.sendCmd(Command::UnknownCommand);
+    cmdMessenger.sendCmd(Command::UnknownCommand, cmdMessenger.commandID());
 }
 
 void OnReadyRequest()
 {
-    cmdMessenger.sendCmd(Command::ReadyResponse, "Ready!");
+    cmdMessenger.sendCmd(Command::ReadyResponse);
 }
 
 void OnSetButtonColorRequest()
@@ -56,7 +56,12 @@ void OnSetButtonColorRequest()
 
     if (buttonIndex < 0 || buttonIndex >= ButtonCount || r < 0 || r > 255 || g < 0 || g > 255 || b < 0 || b > 255)
     {
-        cmdMessenger.sendCmd(Command::InvalidArgument);
+        cmdMessenger.sendCmdStart(Command::InvalidArgument);
+        cmdMessenger.sendCmdArg(buttonIndex);
+        cmdMessenger.sendCmdArg(r);
+        cmdMessenger.sendCmdArg(g);
+        cmdMessenger.sendCmdArg(b);
+        cmdMessenger.sendCmdEnd();
         return;
     }
 
@@ -135,7 +140,7 @@ void loop()
 {
     cmdMessenger.feedinSerialData();
 
-    cmdMessenger.sendCmdStart(Command::ButtonsStateResponse);
+    cmdMessenger.sendCmdStart(Command::ButtonsStateUpdated);
     addButtonStateRecursive();
     cmdMessenger.sendCmdEnd();
 

@@ -1,6 +1,5 @@
 ﻿using CommandMessenger;
 using CommandMessenger.Transport.Serial;
-using System;
 using System.IO.Ports;
 using System.Linq;
 using UnityEngine;
@@ -15,50 +14,68 @@ public class ArduinoCommunication : MonoBehaviour
 		ReadyRequest,
 		ReadyResponse,
 
-		ButtonsStateResponse,
-
 		SetButtonColorRequest,
 		SetButtonColorResponse,
 
 		TurnOffRequest,
 		TurnOffResponse,
+
+		ButtonsStateUpdated,
 	};
 
 	public int speed = 9600;
-	public float intensity = 255f;
 
 	private SerialTransport serialTransport;
 	private CmdMessenger cmdMessenger;
 
+#if UNITY_EDITOR
+	public bool debugNewLines;
+#endif
+
+	public float intensity = 255f;
+
 	private const int ButtonCount = 4;
 	private bool[] buttonStates = new bool[ButtonCount];
 
-	private void OnUnknownCommand(ReceivedCommand arguments)
-	{
-		// Debug.LogWarningFormat("Command without attached callback received: {0}", arguments.RawString);
-	}
-
-	private void OnInvalidArgument(ReceivedCommand arguments)
-	{
-		Debug.LogWarningFormat("Command with invalid argument received: {0}", arguments.RawString);
-	}
-
-	private void OnButtonsStateResult(ReceivedCommand arguments)
-	{
-		for (int i = 0; i < ButtonCount; ++i)
-		{
-			buttonStates[i] = arguments.ReadBoolArg();
-		}
-	}
-
 	private void NewLineReceived(object sender, CommandEventArgs e)
 	{
-		Console.WriteLine(@"Received > " + e.Command.CommandString());
+		Debug.LogFormat("Received: {0}", e.Command.CommandString());
 	}
 
 	private void NewLineSent(object sender, CommandEventArgs e)
 	{
-		Console.WriteLine(@"Sent > " + e.Command.CommandString());
+		Debug.LogFormat("Sent: {0}", e.Command.CommandString());
+	}
+
+	private void OnUnknownCommand(ReceivedCommand command)
+	{
+		Debug.LogWarningFormat("Command without attached callback received: {0}", command.CmdId);
+	}
+
+	private void OnInvalidArgument(ReceivedCommand command)
+	{
+		Debug.LogWarningFormat("Command with invalid argument received: {0}", command.RawString);
+	}
+
+	private void OnReadyResponse(ReceivedCommand command)
+	{
+		Debug.Log("Arduino is ready.");
+	}
+
+	private void OnSetButtonColorResponse(ReceivedCommand command)
+	{
+	}
+
+	private void OnTurnOffResponse(ReceivedCommand command)
+	{
+	}
+
+	private void OnButtonsStateUpdated(ReceivedCommand command)
+	{
+		for (int i = 0; i < ButtonCount; ++i)
+		{
+			buttonStates[i] = command.ReadBoolArg();
+		}
 	}
 
 	private void OnEnable()
@@ -112,15 +129,30 @@ public class ArduinoCommunication : MonoBehaviour
 		serialTransport.CurrentSerialSettings.PortName = portName;
 		cmdMessenger = new CmdMessenger(serialTransport, BoardType.Bit16);
 
+#if UNITY_EDITOR
+		if (debugNewLines)
+		{
+			cmdMessenger.NewLineReceived += NewLineReceived;
+			cmdMessenger.NewLineSent += NewLineSent;
+		}
+#endif
+
 		cmdMessenger.Attach(OnUnknownCommand);
 		cmdMessenger.Attach((int)Command.UnknownCommand, OnUnknownCommand);
 		cmdMessenger.Attach((int)Command.InvalidArgument, OnInvalidArgument);
-		cmdMessenger.Attach((int)Command.ButtonsStateResponse, OnButtonsStateResult);
+		cmdMessenger.Attach((int)Command.ReadyResponse, OnReadyResponse);
+		cmdMessenger.Attach((int)Command.SetButtonColorResponse, OnSetButtonColorResponse);
+		cmdMessenger.Attach((int)Command.TurnOffResponse, OnTurnOffResponse);
+		cmdMessenger.Attach((int)Command.ButtonsStateUpdated, OnButtonsStateUpdated);
 
-		cmdMessenger.NewLineReceived += NewLineReceived;
-		cmdMessenger.NewLineSent += NewLineSent;
+		var success = cmdMessenger.Connect();
+		Debug.Log(success ? "Connection succeeded." : "Connection failed.");
 
-		cmdMessenger.Connect();
+		if (success)
+		{
+			var command = new SendCommand((int)Command.ReadyRequest);
+			cmdMessenger.SendCommand(command);
+		}
 	}
 
 	private void RefreshConnection()
@@ -161,12 +193,12 @@ public class ArduinoCommunication : MonoBehaviour
 		if (cmdMessenger == null)
 			return;
 
-		Int16 r = (Int16)Mathf.RoundToInt(color.r * intensity);
-		Int16 g = (Int16)Mathf.RoundToInt(color.g * intensity);
-		Int16 b = (Int16)Mathf.RoundToInt(color.b * intensity);
+		short r = (short)Mathf.RoundToInt(color.r * intensity);
+		short g = (short)Mathf.RoundToInt(color.g * intensity);
+		short b = (short)Mathf.RoundToInt(color.b * intensity);
 
 		var command = new SendCommand((int)Command.SetButtonColorRequest);
-		command.AddArgument((Int16)index);
+		command.AddArgument((short)index);
 		command.AddArgument(r);
 		command.AddArgument(g);
 		command.AddArgument(b);

@@ -4,6 +4,7 @@ using System.IO;
 using System.IO.Ports;
 using System.Linq;
 using System.Reflection;
+using System.Runtime.InteropServices;
 using System.Text.RegularExpressions;
 
 namespace CommandMessenger.Transport.Serial
@@ -13,7 +14,7 @@ namespace CommandMessenger.Transport.Serial
     /// </summary>
     public static class SerialUtils
     {
-        private static readonly bool IsMonoRuntime = (Type.GetType("Mono.Runtime") != null);
+        private static readonly bool IsMonoRuntime = RuntimeInformation.IsOSPlatform(OSPlatform.Linux);
 
         /// <summary>
         /// Commonly used baud rates.

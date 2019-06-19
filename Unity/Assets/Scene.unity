@@ -8233,6 +8233,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   speed: 38400
+  debugNewLines: 0
   intensity: 255
 --- !u!1 &2006198563
 GameObject:
