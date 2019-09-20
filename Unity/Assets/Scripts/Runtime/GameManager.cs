@@ -29,11 +29,6 @@ public class GameManager : MonoBehaviour
 
 	private void Awake()
 	{
-		if (Display.displays.Length > 1)
-		{
-			Display.displays[1].Activate();
-		}
-
 		buttons = GetComponentsInChildren<Button>();
 		foreach (var button in buttons)
 		{
