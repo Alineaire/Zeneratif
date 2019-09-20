@@ -48,6 +48,13 @@ public class Button : MonoBehaviour
 	public Image ui;
 	private Material uiMaterial;
 
+	public GameObject fxPrefab;
+	public float fxDuration;
+	public float fxStartRadiusRatio;
+	public float fxEndRadius;
+	public float fxStartWidth;
+	public float fxEndWidth;
+
 	[HideInInspector]
 	public ArduinoCommunication arduinoCommunication;
 
@@ -97,6 +104,27 @@ public class Button : MonoBehaviour
 				.3f
 			)
 				.SetEase(Ease.InOutCubic);
+
+			var fxInstance = Instantiate(fxPrefab, ui.transform);
+			var fxImage = fxInstance.GetComponent<Image>();
+			var fxMaterial = new Material(fxImage.material);
+			fxImage.material = fxMaterial;
+			var fxStartRadius = fxStartRadiusRatio * uiMaterial.GetFloat("_Radius");
+			DOTween.To(
+				() => 0f,
+				(value) =>
+				{
+					fxMaterial.SetFloat("_Radius", Mathf.LerpUnclamped(fxStartRadius, fxEndRadius, value));
+					fxMaterial.SetFloat("_Width", Mathf.LerpUnclamped(fxStartWidth, fxEndWidth, value));
+				},
+				1f,
+				fxDuration
+			)
+			.SetEase(Ease.Linear)
+			.OnComplete(() =>
+			{
+				Destroy(fxInstance);
+			});
 		}
 
 		currentIsPressed = isPressed;
