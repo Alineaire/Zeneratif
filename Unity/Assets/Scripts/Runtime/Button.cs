@@ -31,6 +31,7 @@ public class Button : MonoBehaviour
 	}
 
 	public int inputIndex;
+	public KeyCode keyCode;
 	private bool currentIsPressed = false;
 
 	private float intensityRatio;
@@ -76,7 +77,7 @@ public class Button : MonoBehaviour
 
 	private void Update()
 	{
-		bool isPressed = arduinoCommunication.IsButtonPressed(inputIndex);
+		bool isPressed = arduinoCommunication.IsButtonPressed(inputIndex) || Input.GetKey(keyCode);
 
 		if (isPressed && !currentIsPressed)
 		{

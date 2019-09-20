@@ -214,6 +214,11 @@ PrefabInstance:
       propertyPath: maxRadius
       value: 0.4
       objectReference: {fileID: 0}
+    - target: {fileID: 114647293615155772, guid: 745bed7eb4c079644bbf5d03515b06ce,
+        type: 3}
+      propertyPath: keyCode
+      value: 49
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 745bed7eb4c079644bbf5d03515b06ce, type: 3}
 --- !u!1 &96577418
@@ -522,6 +527,11 @@ PrefabInstance:
       propertyPath: maxRadius
       value: 0.4
       objectReference: {fileID: 0}
+    - target: {fileID: 114647293615155772, guid: 745bed7eb4c079644bbf5d03515b06ce,
+        type: 3}
+      propertyPath: keyCode
+      value: 51
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 745bed7eb4c079644bbf5d03515b06ce, type: 3}
 --- !u!4 &240368197 stripped
@@ -822,6 +832,11 @@ PrefabInstance:
         type: 3}
       propertyPath: maxRadius
       value: 0.4
+      objectReference: {fileID: 0}
+    - target: {fileID: 114647293615155772, guid: 745bed7eb4c079644bbf5d03515b06ce,
+        type: 3}
+      propertyPath: keyCode
+      value: 50
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 745bed7eb4c079644bbf5d03515b06ce, type: 3}
@@ -7046,7 +7061,7 @@ MonoBehaviour:
     m_Alignment: 4
     m_AlignByGeometry: 0
     m_RichText: 0
-    m_HorizontalOverflow: 0
+    m_HorizontalOverflow: 1
     m_VerticalOverflow: 0
     m_LineSpacing: 0
   m_Text: COM1
@@ -7277,7 +7292,7 @@ MonoBehaviour:
     m_Alignment: 4
     m_AlignByGeometry: 0
     m_RichText: 0
-    m_HorizontalOverflow: 0
+    m_HorizontalOverflow: 1
     m_VerticalOverflow: 0
     m_LineSpacing: 0
   m_Text: 57120
@@ -7749,7 +7764,7 @@ MonoBehaviour:
     m_Alignment: 4
     m_AlignByGeometry: 0
     m_RichText: 0
-    m_HorizontalOverflow: 0
+    m_HorizontalOverflow: 1
     m_VerticalOverflow: 0
     m_LineSpacing: 0
   m_Text: 127.0.0.1
@@ -8332,6 +8347,11 @@ PrefabInstance:
         type: 3}
       propertyPath: maxRadius
       value: 0.4
+      objectReference: {fileID: 0}
+    - target: {fileID: 114647293615155772, guid: 745bed7eb4c079644bbf5d03515b06ce,
+        type: 3}
+      propertyPath: keyCode
+      value: 52
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 745bed7eb4c079644bbf5d03515b06ce, type: 3}
