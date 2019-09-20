@@ -1,5 +1,6 @@
 ﻿using DG.Tweening;
 using UnityEngine;
+using UnityEngine.UI;
 
 public class Button : MonoBehaviour
 {
@@ -37,6 +38,15 @@ public class Button : MonoBehaviour
 	public float intensityMinInterval;
 	public float intensityMaxInterval;
 
+	private float flashIntensity = 0f;
+	private Tweener flashTweener;
+
+	public float minRadius;
+	public float maxRadius;
+
+	public Image ui;
+	private Material uiMaterial;
+
 	[HideInInspector]
 	public ArduinoCommunication arduinoCommunication;
 
@@ -59,6 +69,8 @@ public class Button : MonoBehaviour
 	private void Start()
 	{
 		intensityRatio = 0f;
+		uiMaterial = new Material(ui.material);
+		ui.material = uiMaterial;
 		Pick();
 	}
 
@@ -68,11 +80,29 @@ public class Button : MonoBehaviour
 
 		if (isPressed && !currentIsPressed)
 		{
+			if (flashTweener != null)
+			{
+				flashTweener.Kill();
+			}
+
+			flashIntensity = 1f;
+			flashTweener = DOTween.To(
+				() => flashIntensity,
+				(value) =>
+				{
+					flashIntensity = value;
+				},
+				0f,
+				.3f
+			)
+				.SetEase(Ease.InOutCubic);
 		}
 
 		currentIsPressed = isPressed;
 
-		var intensity = .01f + intensityRatio * intensityRatio * .05f;
+		var intensity = Mathf.Max(.01f + intensityRatio * intensityRatio * .05f, flashIntensity);
 		arduinoCommunication.SetButtonColor(inputIndex, Color.white * intensity);
+		uiMaterial.SetFloat("_Inside", intensity);
+		uiMaterial.SetFloat("_Radius", Mathf.Lerp(minRadius, maxRadius, intensityRatio));
 	}
 }

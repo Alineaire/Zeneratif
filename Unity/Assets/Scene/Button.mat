@@ -5,7 +5,8 @@ Material:
   serializedVersion: 6
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
   m_Name: Button
   m_Shader: {fileID: 4800000, guid: f8982aaa28364b24d8af4acf443218d2, type: 3}
   m_ShaderKeywords: 
@@ -63,12 +64,12 @@ Material:
     - _Glossiness: 0.5
     - _GlossyReflections: 1
     - _InnerRadius: 0.4
-    - _Inside: 0
+    - _Inside: 0.059734486
     - _Metallic: 0
     - _Mode: 0
     - _OcclusionStrength: 1
     - _Parallax: 0.02
-    - _Radius: 0.227
+    - _Radius: 0.39946827
     - _Smoothness: 0.02
     - _SmoothnessTextureChannel: 0
     - _SpecularHighlights: 1
