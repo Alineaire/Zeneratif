@@ -1,7 +1,4 @@
-﻿using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
-using UnityEngine.UI;
+﻿using UnityEngine;
 
 [ExecuteInEditMode]
 public class ButtonUI : MonoBehaviour
@@ -9,12 +6,17 @@ public class ButtonUI : MonoBehaviour
 	public new Camera camera;
 	public Transform target;
 
-	void Update()
+	private void Update()
 	{
-		Vector2 ViewportPosition = camera.WorldToViewportPoint(target.position);
-		GetComponent<RectTransform>().anchoredPosition = new Vector2(
-			ViewportPosition.x*1024f,
-			(ViewportPosition.y-1f)*768f
-		);
+		var rectTransform = GetComponent<RectTransform>();
+		var canvasRectTransform = transform.GetComponentInParent<Canvas>().GetComponent<RectTransform>();
+
+		Vector2 viewportPosition = camera.WorldToViewportPoint(target.position);
+		var screenPosition = new Vector2(
+			canvasRectTransform.sizeDelta.x * (viewportPosition.x),
+			canvasRectTransform.sizeDelta.y * (viewportPosition.y - 1f)
+		 );
+
+		rectTransform.anchoredPosition = screenPosition;
 	}
 }
